@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>VUE</title>
+    <style type="text/css">
+        input {
+            background-color: azure;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main">
+        <h3>
+            Hola aplicación: {{ message }}
+        </h3>
+
+        <button @click="count++" type="button">
+            Count is: {{ count }}
+        </button>
+
+        <br><br>
+
+        <label for="name_input">Escribe tu nombre:</label>
+        <input type="text" id="name_input" v-model="name" placeholder="Escribe aquí" name="name">
+
+        <br><br>
+
+        <label>Tu nombre es: <span id="span_name">{{ name }}</span></label>
+
+        <hr> 
+
+        <form>
+            <input type="number" v-model="num1" placeholder="Número 1">
+
+            <br>
+
+            <input type="number" v-model="num2" placeholder="Número 2">
+
+            <br>
+
+            <button @click.prevent="resultado = parseFloat(num1) + parseFloat(num2)" type="button">
+                Sumar
+            </button>
+
+        </form>
+
+        <label>
+            Resultado: {{ resultado }}
+        </label>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script>
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup() {
+                const message = ref('hola app!')
+                const count = ref(0)
+                const name = ref('')
+                const resultado = ref(0)
+                const num1 = ref(0)
+                const num2 = ref(0)
+                
+                return {
+                    message,
+                    count,
+                    name,
+                    resultado,
+                    num1,
+                    num2
+                }
+            }
+        }).mount('#main')
+    </script>
+
+</body>
+
+</html>
