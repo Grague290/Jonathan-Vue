@@ -22,13 +22,7 @@
 
         <br><br>
 
-        <label for="name_input">Escribe tu nombre:</label>
-        <input type="text" id="name_input" v-model="name" placeholder="Escribe aquí" name="name">
-
-        <br><br>
-
-        <label>Tu nombre es: <span id="span_name">{{ name }}</span></label>
-
+        
         <hr> 
 
         <form>
@@ -49,6 +43,41 @@
         <label>
             Resultado: {{ resultado }}
         </label>
+
+        <hr>
+
+        <h1>
+            Apellido
+        </h1>
+         <ul>
+            <li v-for="Nombres in nCompleto" >
+                {{Nombres.Nombre}} {{Nombres.Apellido}}
+            </li>
+         </ul>
+
+         <hr>
+
+         <form> 
+            <fieldset>
+                <label for="nombre">Escribe tu nombre:</label>
+                <input type="text" v-model="sNombre" placeholder="Nombre">
+
+                <hr>
+
+                <label for="apellido">Escribe tu Apellido:</label>
+                <input type="text" v-model="sApellido" placeholder="Apellido">
+
+                <hr>
+
+                <button @click="subirNombre" type="button">
+                    Guardar
+                </button>
+
+            </fieldset>
+
+
+         </form>
+
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -64,19 +93,62 @@
                 const resultado = ref(0)
                 const num1 = ref(0)
                 const num2 = ref(0)
-                
+                let nCompleto = ref([
+                    {
+                        "Nombre": "Jose",
+                        "Apellido": "Perez"
+                    },
+                    {
+                        "Nombre": "Javier",
+                        "Apellido": "Lopez"
+                    },
+                    {
+                        "Nombre": "Joan",
+                        "Apellido": "Rodriguez"
+                    }
+                ])
+                let sNombre = ref("")
+                let sApellido = ref("")
+
+
                 return {
                     message,
                     count,
                     name,
                     resultado,
                     num1,
-                    num2
+                    num2,
+                    nCompleto,
+                    sNombre,
+                    sApellido
+                }
+
+            },
+
+            methods: {
+                subirNombre(){
+                    let temporal = {
+                        "Nombre": this.sNombre,
+                        "Apellido": this.sApellido
+                    }
+                    this.nCompleto.push(temporal)
+                    this.sNombre=""
+                    this.sApellido=""
                 }
             }
+
         }).mount('#main')
     </script>
 
 </body>
 
 </html>
+
+
+
+<label for="name_input">Escribe tu nombre:</label>
+        <input type="text" id="name_input" v-model="name" placeholder="Escribe aquí" name="name">
+
+        <br><br>
+
+        <label>Tu nombre es: <span id="span_name">{{ name }}</span></label>
