@@ -16,61 +16,23 @@
             Hola aplicación: {{ message }}
         </h3>
 
-        <button @click="count++" type="button">
-            Count is: {{ count }}
-        </button>
-
-        <br><br>
-
-        
         <hr> 
+       
 
-        <form>
-            <input type="number" v-model="num1" placeholder="Número 1">
-
-            <br>
-
-            <input type="number" v-model="num2" placeholder="Número 2">
-
-            <br>
-
-            <button @click.prevent="resultado = parseFloat(num1) + parseFloat(num2)" type="button">
-                Sumar
-            </button>
-
-        </form>
-
-        <label>
-            Resultado: {{ resultado }}
-        </label>
-
-        <hr>
-
-        <h1>
-            Apellido
-        </h1>
-         <ul>
-            <li v-for="Nombres in nCompleto" >
-                {{Nombres.Nombre}} {{Nombres.Apellido}}
-            </li>
-         </ul>
-
-         <hr>
-
-         <form> 
+         <form @sumbit.prevent="login"> 
             <fieldset>
-                <label for="nombre">Escribe tu nombre:</label>
-                <input type="text" v-model="sNombre" placeholder="Nombre">
+                <label >Escribe tu correo:</label>
+                <input type="email" v-model="email" placeholder="Correo" required>
 
                 <hr>
 
                 <label for="apellido">Escribe tu Apellido:</label>
-                <input type="text" v-model="sApellido" placeholder="Apellido">
+                <input type="password" v-model="password" placeholder="Contraseña" required>
 
                 <hr>
 
-                <button @click="subirNombre" type="button">
-                    Guardar
+                <button @click="loggin" type="button">
+                    Acceder
                 </button>
 
             </fieldset>
@@ -87,53 +49,25 @@
 
         createApp({
             setup() {
-                const message = ref('hola app!')
-                const count = ref(0)
-                const name = ref('')
-                const resultado = ref(0)
-                const num1 = ref(0)
-                const num2 = ref(0)
-                let nCompleto = ref([
-                    {
-                        "Nombre": "Jose",
-                        "Apellido": "Perez"
-                    },
-                    {
-                        "Nombre": "Javier",
-                        "Apellido": "Lopez"
-                    },
-                    {
-                        "Nombre": "Joan",
-                        "Apellido": "Rodriguez"
-                    }
-                ])
-                let sNombre = ref("")
-                let sApellido = ref("")
+                
+
+                let email = ref('')
+                let password = ref('')
+                let is_logged = false
 
 
                 return {
-                    message,
-                    count,
-                    name,
-                    resultado,
-                    num1,
-                    num2,
-                    nCompleto,
-                    sNombre,
-                    sApellido
+                    email,
+                    password,
+                    is_logged
                 }
 
             },
 
             methods: {
-                subirNombre(){
-                    let temporal = {
-                        "Nombre": this.sNombre,
-                        "Apellido": this.sApellido
-                    }
-                    this.nCompleto.push(temporal)
-                    this.sNombre=""
-                    this.sApellido=""
+                login() {
+                    
+                      
                 }
             }
 
@@ -146,9 +80,4 @@
 
 
 
-<label for="name_input">Escribe tu nombre:</label>
-        <input type="text" id="name_input" v-model="name" placeholder="Escribe aquí" name="name">
 
-        <br><br>
-
-        <label>Tu nombre es: <span id="span_name">{{ name }}</span></label>
