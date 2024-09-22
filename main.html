@@ -18,6 +18,17 @@
             padding: 10px;
             text-align: left;
         }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -43,7 +54,6 @@
             </form>
         </div>
 
-
         <div id="users-table" v-if="isLoggedIn">
             <h3>Lista de Usuarios</h3>
             <table>
@@ -66,13 +76,16 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Botón de Log Out -->
+            <button @click="logout">Log Out</button>
         </div>
 
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
-        const { createApp } = Vue; 
+        const { createApp } = Vue;
 
         createApp({
             data() {
