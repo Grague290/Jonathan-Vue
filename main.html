@@ -7,8 +7,16 @@
         input {
             background-color: azure;
         }
-        #welcome-message {
-            display: none;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
         }
     </style>
 </head>
@@ -35,8 +43,29 @@
             </form>
         </div>
 
-        <div id="welcome-message" v-if="isLoggedIn">
-            <h3>Bienvenidos {{ userEmail }}!</h3>
+
+        <div id="users-table" v-if="isLoggedIn">
+            <h3>Lista de Usuarios</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users" :key="user.email">
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.company.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -52,7 +81,8 @@
                     password: '',
                     isLoggedIn: false,
                     userEmail: '',
-                    message: 'Aplicación Vue'
+                    message: 'Aplicación Vue',
+                    users: [] 
                 };
             },
             methods: {
@@ -62,10 +92,11 @@
                         .then(users => {
                             const user = users.find(u => u.email === this.email && u.password === this.password);
                             if (user) {
-                                this.isLoggedIn = true; 
-                                this.userEmail = user.email; 
-                                console.log("Login exitoso:", this.userEmail); 
-                                console.log(this.isLoggedIn);
+                                this.isLoggedIn = true;
+                                this.userEmail = user.email;
+                                console.log("Login exitoso:", this.userEmail);
+
+                                this.loadUsers();
                             } else {
                                 alert('Correo o contraseña incorrectos. Por favor, inténtalo de nuevo.');
                             }
@@ -73,6 +104,16 @@
                         .catch(error => {
                             console.error('Error al cargar el archivo:', error);
                             alert('Error al cargar los datos. Inténtalo más tarde.');
+                        });
+                },
+                loadUsers() {
+                    fetch('users.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.users = data;
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar los usuarios:', error);
                         });
                 }
             }
