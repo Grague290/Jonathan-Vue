@@ -75,7 +75,7 @@
                         <td>{{ user.phone }}</td>
                         <td>{{ user.company.name }}</td>
                         <td>
-                            <button>
+                            <button v-on:click="editUser(user)">
                                 Edit
                             </button>
                             <button v-on:click="deleteUser(user.email)">
@@ -87,9 +87,31 @@
             </table>
 
             <!-- Botón de Log Out -->
+            <div v-if="isEditing">
+                <h3>Editar usuario</h3>
+                <form @submit.prevent="saveChanges">
+                  <label>Nombre:</label>
+                  <input type="text" v-model="editedUser.name" />
+                  <br />
+                  <label>Username:</label>
+                  <input type="text" v-model="editedUser.username" />
+                  <br />
+                  <label>Email:</label>
+                  <input type="email" v-model="editedUser.email" />
+                  <br />
+                  <label>Teléfono:</label>
+                  <input type="tel" v-model="editedUser.phone" />
+                  <br />
+                  <label>Company Name:</label>
+                  <input type="text" v-model="editedUser.company.name" />
+                  <br />
+                  <button type="submit">Guardar cambios</button>
+                  <button @click="cancelEdit">Cancelar</button>
+                </form>
+              </div>
+
             <button @click="logout">Log Out</button>
         </div>
-
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -104,7 +126,9 @@
                     isLoggedIn: false,
                     userEmail: '',
                     message: 'Aplicación Vue',
-                    users: [] 
+                    users: [], 
+                    isEditing: false,
+                    editedUser: {}
                 };
             },
             methods: {
@@ -161,9 +185,22 @@
                 deleteUser(email) {
                     const users = this.users.filter(user => user.email !== email);
                     this.users = users;
+                    console.log("Borrando");
                 },
-                edit(){
-
+                editUser(user) {
+                    this.editedUser = { ...user };
+                    this.isEditing = true;
+                    console.log("Editando");
+                },
+                saveChanges() {
+                    const index = this.users.findIndex(user => user.email === this.editedUser.email);
+                    this.users.splice(index, 1, this.editedUser);
+                    this.isEditing = false;
+                    console.log("Guardando");
+                },
+                cancelEdit() {
+                    this.isEditing = false;
+                    console.log("Cancelando");
                 }
             },
             mounted() {
