@@ -64,6 +64,7 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Company Name</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +74,14 @@
                         <td>{{ user.email }}</td>
                         <td>{{ user.phone }}</td>
                         <td>{{ user.company.name }}</td>
+                        <td>
+                            <button>
+                                Edit
+                            </button>
+                            <button v-on:click="deleteUser(user.email)">
+                                Eliminar
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -148,6 +157,13 @@
                     this.email = '';
                     this.password = '';
                     this.users = [];
+                },
+                deleteUser(email) {
+                    const users = this.users.filter(user => user.email !== email);
+                    this.users = users;
+                },
+                edit(){
+
                 }
             },
             mounted() {
